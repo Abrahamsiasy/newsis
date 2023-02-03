@@ -23,7 +23,7 @@
                 <div class="col-md-3">
 
                     <!-- Profile Image -->
-
+                    
                     <div class="card card-primary card-outline">
                         <!-- /.card-basic info start -->
                         <div class="card-body box-profile">

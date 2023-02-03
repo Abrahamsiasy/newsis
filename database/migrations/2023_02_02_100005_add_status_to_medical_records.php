@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('medical_records', function (Blueprint $table) {
             //
-            $table->unsignedBigInteger('status')->default(1);
+            $table->unsignedBigInteger('status')->default(0);
         });
     }
 

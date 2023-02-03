@@ -18,7 +18,7 @@ class LabMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::check() && Auth::user()->rol_id == 3){
+        if(Auth::check() && Auth::user()->rol_id == 3){//3
             return $next($request);
          }
          else {

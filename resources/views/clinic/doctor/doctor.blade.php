@@ -13,7 +13,7 @@
         </div><!-- /.container-fluid -->
     </div>
 
-    {{ auth()->user()->rol_id }}
+    {{-- {{ auth()->user()->rol_id }} --}}
 
     <!-- /.content-header -->
 
@@ -24,6 +24,72 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
+                            {{-- modal starts here --}}
+                            <div id="contact"><button type="button" class="btn btn-info btn" data-toggle="modal"
+                                    data-target="#contact-modal">Change Room</button></div>
+                            <div id="contact-modal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+
+                                        </div>
+                                        <form id="contactForm" name="contact" method="POST"
+                                            action="/clinic/doctor/changeRoom/">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <div class="form-group">
+                                                        <label>Room NO.</label>
+                                                        <select class="form-control select2 select2-hidden-accessible"
+                                                            id="selected_value" style="width: 100%;" data-select2-id="1"
+                                                            name="room_id" tabindex="-1" aria-hidden="true">
+                                                            @foreach ($rooms as $room)
+                                                                <option value="{{ $room->id }}"> {{ $room->room_no }}
+                                                                </option>
+                                                            @endforeach
+                                                            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+                                                            {{-- <script>
+                                                                document.getElementById("selected_value").addEventListener("change", function() {
+                                                                    var e = document.getElementById("selected_value").value;
+                                                                });
+                                                               
+                                                            </script> --}}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="email">
+                                                        Room title: <p id="room_title" class="badge bg-primary d-inline">
+                                                        </p>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message">Room Type: <p id="room_type"
+                                                            class="badge bg-primary d-inline"></p>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">Close</button>
+                                                <input type="submit" class="btn btn-success" id="submit">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- modal ends here --}}
+
+
+
+                            {{-- <button type="button" class="btn btn-primary" onclick="myFunction()">Show live toast</button> --}}
+
+
+
+                            {{-- widgit for the toasts start here --}}
+                            @asyncWidget('LabResultWidget')
+                            {{-- widgit for the toasts end here --}}
+
+
                             <p class="card-text">
                                 <!-- Table with panel -->
                             <div class="card card-cascade narrower">
@@ -85,7 +151,7 @@
                                                                 class="btn btn-danger disabled">ACCEPT</>
                                                         </td>
                                                     @endif
-                                                </td>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                             {{-- for emergency only table raw end --}}
@@ -129,4 +195,29 @@
     </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
+
+
+    {{-- <script src="{{ asset('back/plugins/jquery/jquery.min.js') }}"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+        $(document).on('change', '#selected_value', function() {
+            var id = document.getElementById('selected_value').value;
+            $.ajax({
+                method: 'GET',
+                url: "{{ route('doctor.getroom') }}",
+                data: {
+                    'id': id,
+                },
+                dataType: 'json',
+                success: function(data) {
+
+                    $('#room_title').text(data.room_title);
+                    $('#room_type').text(data.room_type);
+
+                },
+                error: function() {}
+            });
+
+        })
+    </script>
 @endsection

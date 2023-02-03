@@ -5,17 +5,18 @@ namespace App\Http\Controllers\Clinic;
 use App\Models\Student;
 
 use App\Models\Clinic\Queue;
+use App\Models\Clinic\Women;
 use Illuminate\Http\Request;
 use App\Models\Clinic\LabQueue;
 use App\Models\Clinic\LabResult;
 use App\Models\Clinic\LabRequest;
 use App\Models\Clinic\Medication;
+use App\Models\Clinic\Room;
+
 use App\Http\Controllers\Controller;
 use App\Models\Clinic\MedicalRecord;
-
 use Illuminate\Support\Facades\Auth;
 use App\Models\Clinic\PersonalRecord;
-use App\Models\Clinic\Women;
 
 class DoctorController extends Controller
 {
@@ -26,36 +27,48 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        //
 
-        //dd(Queue::where('status', 3)->paginate(25));
-        // $timecountdownend = strtotime("2020-05-18 14:30:00");
-        // $timecountdownstart = strtotime("now");
-        // $startdatetime = "2020-05-18 14:07:00"; //variable for starting datetime
+        //dd(Room::all());
+        //get user id from auth
+        $userId = Auth::user()->id;
+        //dd($userId);
 
-        // $timeleft = $timecountdownend - $timecountdownstart;
-
-        // echo ($timeleft) . "<br>";
-        // echo (PHP_EOL). "<br>";
-        // echo ($timeleft * (-1)). "<br>";
-        // echo (PHP_EOL). "<br>";
-        // echo (date('Y-m-d h:i:sa', strtotime($startdatetime) + $timeleft * (-1))). "<br>";
-        //dd(Queue::whereRaw('status = 0 ORDER BY id')->first());
-        //         SELECT * FROM students
-        // WHERE status = 0
-        // ORDER BY id
-        // LIMIT 1;
-        //dd(Queue::whereRaw('status = 5 ORDER BY id')->first());
-
-        
-         
+        // $medicalRecord = MedicalRecord::whereRaw('status = 1 AND doctor_id = 2' )->first();
+        // dd($medicalRecord->student->student_id);
         return view('clinic.doctor.doctor', [
             'students' => Queue::where('status', 0)->paginate(25),
             'emergency' => Queue::where('status', 5)->paginate(25),
             'minidemer' => Queue::whereRaw('status = 5 ORDER BY id')->first(),
-            'minid' =>  Queue::whereRaw('status = 0 ORDER BY id')->first()
+            'minid' =>  Queue::whereRaw('status = 0 ORDER BY id')->first(),
+            'rooms' => Room::all()
 
         ]);
+    }
+    //getRoom for the doctor
+    public function getRoom(Request $request){
+       //error_log($request->get('id'));
+       // FInd a room with the given id
+       $room = Room::where('id', $request->get('id'))->first();
+       error_log($room);
+       //dd($room);
+       return $room;
+    }
+
+    //function changeRoom 
+    public function changeRoom(Request $request){
+        //get usther fro muther auth 
+        $user = Auth::user()->id;
+        $room = Room::where('id', $request->get('room_id'))->first();
+
+        $room = Room::where('id', $request->get('room_id'))->first();
+        //dd($room->id);
+        $room->user_id = $user;
+        $room->save();
+        //redirect back with a succes message
+
+
+        
+        return redirect()->back()->with('success', 'Succesfully changed the room');
     }
 
     //get queid and change the status when it get accepted
