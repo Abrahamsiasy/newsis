@@ -18,6 +18,7 @@
                         <i class="fas fa-angle-left right"></i>
                     </p>
                 </a>
+                
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                         <a href="/clinic/doctor" class="nav-link">
@@ -52,8 +53,28 @@
 
                 </ul>
             </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-tree"></i>
+                  <p>
+                    Doctor
+                    <i class="fas fa-angle-left right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="/clinic/doctor/list" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Patient List</p>
+                    </a>
+                </ul>
+              </li>
         </ul>
+        
     </nav>
+    
     <!-- /.sidebar-menu -->
 </div>
 <!-- /.sidebar -->
+
+

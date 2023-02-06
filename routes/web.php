@@ -58,8 +58,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('clinic/doctor/detail/record/basicg/{student}',  [DoctorController::class, 'updateGBasicRecord']);//gitls basic info
     Route::get('clinic/doctor/detail/{student}',  [DoctorController::class, 'show']);
     Route::delete('clinic/doctor/detail/{student}',  [DoctorController::class, 'delete']);
+    Route::post('clinic/doctor/detail/status/{student}',  [DoctorController::class, 'changeMedicalRecordStatus']);
     Route::get('clinic/doctor/getRoom/',  [DoctorController::class, 'getRoom'])->name('doctor.getroom');
     Route::post('clinic/doctor/changeRoom/',  [DoctorController::class, 'changeRoom'])->name('doctor.changeRoom');
+    Route::get('clinic/doctor/getDoctor/',  [DoctorController::class, 'getDoctor'])->name('doctor.getdoctor');
+    Route::post('clinic/doctor/changeDoctor/',  [DoctorController::class, 'changeDoctor'])->name('doctor.changeDoctor');
+    Route::get('clinic/doctor/list/',  [DoctorController::class, 'listPatientRecords'])->name('doctor.listPatientRecords');
 });
 // Route::group(['prefix' => 'clinic', 'as' => 'lab.', 'middleware' => ['auth', 'lab']], function () {
 // Route::middleware('auth')->group(['prefix' => 'clinic'], function () {

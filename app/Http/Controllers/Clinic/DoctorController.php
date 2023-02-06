@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Clinic;
 
-use App\Models\Student;
+use App\Models\User;
 
+use App\Models\Student;
+use App\Models\Clinic\Room;
 use App\Models\Clinic\Queue;
 use App\Models\Clinic\Women;
 use Illuminate\Http\Request;
 use App\Models\Clinic\LabQueue;
 use App\Models\Clinic\LabResult;
 use App\Models\Clinic\LabRequest;
-use App\Models\Clinic\Medication;
-use App\Models\Clinic\Room;
 
+use App\Models\Clinic\Medication;
 use App\Http\Controllers\Controller;
 use App\Models\Clinic\MedicalRecord;
 use Illuminate\Support\Facades\Auth;
@@ -45,44 +46,67 @@ class DoctorController extends Controller
         ]);
     }
     //getRoom for the doctor
-    public function getRoom(Request $request){
-       //error_log($request->get('id'));
-       // FInd a room with the given id
-       $room = Room::where('id', $request->get('id'))->first();
-       error_log($room);
-       //dd($room);
-       return $room;
+    public function getRoom(Request $request)
+    {
+        //error_log($request->get('id'));
+        // FInd a room with the given id
+        $room = Room::where('id', $request->get('id'))->first();
+        error_log($room);
+        //dd($room);
+        return $room;
     }
 
+    
+
     //function changeRoom 
-    public function changeRoom(Request $request){
+    public function changeRoom(Request $request)
+    {
         //get usther fro muther auth 
         $user = Auth::user()->id;
         $room = Room::where('id', $request->get('room_id'))->first();
-
         $room = Room::where('id', $request->get('room_id'))->first();
         //dd($room->id);
         $room->user_id = $user;
         $room->save();
         //redirect back with a succes message
+        return redirect()->back()->with('success', 'Succesfully changed the room');
+    }
 
-
+    //getRoom for the doctor
+    public function getDoctor(Request $request)
+    {
+        // FInd a user with with role_id 2 which are doctors
+        $doctor = User::where('id',  $request->get('id'))->first();
         
+        error_log($doctor);
+        return $doctor;
+    }
+    //function changeRoom 
+    public function changeDoctor(Request $request)
+    {
+        //get usther fro muther auth 
+        $user = Auth::user()->id;
+        $room = Room::where('id', $request->get('room_id'))->first();
+        $room = Room::where('id', $request->get('room_id'))->first();
+        //dd($room->id);
+        $room->user_id = $user;
+        $room->save();
+        //redirect back with a succes message
         return redirect()->back()->with('success', 'Succesfully changed the room');
     }
 
     //get queid and change the status when it get accepted
-    public function changeQueueStatus($student_id){
+    public function changeQueueStatus($student_id)
+    {
         $queueid = Queue::where('student_id', $student_id)->first();
         $queue = Queue::where('id', $queueid->id)->first();
         $queue->doctor_id = auth()->user()->id;
         $queue->status = 1;
-        if($queue->save()){
+        if ($queue->save()) {
             return 1;
         } else {
             return 0;
         }
-        
     }
     public function show(
         Student $student,
@@ -104,22 +128,22 @@ class DoctorController extends Controller
 
 
         //
-        if(self::changeQueueStatus($student->id)){
-           $histories = MedicalRecord::where('student_id', $student->id)->first();
+        if (self::changeQueueStatus($student->id)) {
+            $histories = MedicalRecord::where('student_id', $student->id)->first();
             //dd($histories);
-            $labReq=[];
+            $labReq = [];
 
-            $labhistories = LabResult::where('student_id', $student->id)->get(); 
-            foreach ($labhistories as $lab){
-                $var=LabRequest::where('id',$lab->lab_request_id)->first();
+            $labhistories = LabResult::where('student_id', $student->id)->get();
+            foreach ($labhistories as $lab) {
+                $var = LabRequest::where('id', $lab->lab_request_id)->first();
                 // dd($lab->lab_request_id );
-                array_push($labReq,$var);
+                array_push($labReq, $var);
             }
             // dd($labReq);
             // dd($labhistories[0]);
 
         }
-        
+
         //dd($labhistories); // returns empty array
         //dd(count(Medication::where('medicalhistories_id', $histories->id)->get()))
 
@@ -154,12 +178,13 @@ class DoctorController extends Controller
             'histories' => $histories,
             'labhistories' => $labhistories,
             'medhistories' => $medhistories,
-            'labReq'=> $labReq,
+            'labReq' => $labReq,
             'personalmedhistories' => $personalmedhistories
         ]);
     }
 
-    public function updateBasicRecord(Request $request, Student $student){
+    public function updateBasicRecord(Request $request, Student $student)
+    {
 
         $formField = $request->validate([
             'blood_type' => 'required',
@@ -174,7 +199,7 @@ class DoctorController extends Controller
         $histories->weight = $formField['weight'];
         //dd($personalmedicalrecord);
         $histories->save();
-        if($histories->save()){
+        if ($histories->save()) {
             //dd("Success");
             return redirect('/clinic/doctor/detail/' . $student->id)->with('status', 'Medcin added!');
         }
@@ -183,20 +208,21 @@ class DoctorController extends Controller
         return redirect('/clinic/doctor/detail/' . $student->id)->with('status', 'Medcin added!');
     }
 
-    public function updateGBasicRecord(Request $request, Student $student){
+    public function updateGBasicRecord(Request $request, Student $student)
+    {
 
         $formField = $request->validate([
             'last_menstrual_cycle' => 'required',
             'number_of_pregnancies'  => 'required',
         ]);
         //$histories = MedicalRecord::where('student_id', $student->id)->first();
-        if($request->number_of_live_births == null){
+        if ($request->number_of_live_births == null) {
             $number_of_live_births = 0;
         }
-        if($request->pregnancie_complications == null){
+        if ($request->pregnancie_complications == null) {
             $pregnancie_complications = 0;
         }
-        if($request->manopause_date == null){
+        if ($request->manopause_date == null) {
             $manopause_date = 0;
         }
         $histories = new Women();
@@ -208,7 +234,7 @@ class DoctorController extends Controller
         $histories->manopause_date = $manopause_date;
         //dd($personalmedicalrecord);
         $histories->save();
-        if($histories->save()){
+        if ($histories->save()) {
             //dd("Success");
             return redirect('/clinic/doctor/detail/' . $student->id)->with('status', 'Medcin added!');
         }
@@ -231,24 +257,24 @@ class DoctorController extends Controller
         $labQueue->student_id = $student->id;
         $labQueue->save();
         //get all values from the check box except the token and save to lab queue
-        if($labQueue->id){
-           foreach ($request->except('_token') as $req) {
-            foreach ($req as $labRequest) {
-                //echo $a++ . $labRequest . "<hr>";
-                $labRequests = new labRequest();
-                $labRequests->title = $labRequest;
-                $labRequests->description = $labRequest;
-                $labRequests->student_id = $student->id;
-                $labRequests->doctor_id = auth()->user()->id;
-                $labRequests->lab_queue_id = $labQueue->id;
+        if ($labQueue->id) {
+            foreach ($request->except('_token') as $req) {
+                foreach ($req as $labRequest) {
+                    //echo $a++ . $labRequest . "<hr>";
+                    $labRequests = new labRequest();
+                    $labRequests->title = $labRequest;
+                    $labRequests->description = $labRequest;
+                    $labRequests->student_id = $student->id;
+                    $labRequests->doctor_id = auth()->user()->id;
+                    $labRequests->lab_queue_id = $labQueue->id;
 
-                // echo $labRequest . "<hr>";
-                $labRequests->save();
+                    // echo $labRequest . "<hr>";
+                    $labRequests->save();
+                }
+                return redirect('/clinic/doctor/detail/' . $student->id)->with('status', 'Lab sent!');
             }
-            return redirect('/clinic/doctor/detail/' . $student->id)->with('status', 'Lab sent!');
-        } 
         }
-        
+
         //dd($labReport->id);
         //Labreport::create($formField);
 
@@ -292,8 +318,6 @@ class DoctorController extends Controller
         $medicalrecord->save();
         //dd($medicalrecord->id);
         // // or anther method
-
-
         //redirect to its own page
         return redirect('/clinic/doctor/detail/' . $student->id)->with('status', 'Medcin added!');
     }
@@ -309,7 +333,7 @@ class DoctorController extends Controller
             'comments' => 'required'
 
         ]);
-        if($request->current == null){
+        if ($request->current == null) {
             $current = 0;
         } else {
             $current = 1;
@@ -338,13 +362,39 @@ class DoctorController extends Controller
     }
 
 
+
+    //Change medical record status to one so it could notify the doctor
+    public function changeMedicalRecordStatus(Student $student)
+    {
+        //find medical record where student_id = $student->id and change its status to 1
+        $medicalRecord = MedicalRecord::where('student_id', $student->id)->first();
+        $medicalRecord->status = 1;
+        $medicalRecord->save();
+        return redirect('/clinic/doctor')->with('status', 'Waiting for lab!');
+    }
+
+
+    //list of patient records for a given doctor
+    public function listPatientRecords(Request $request, Student $student)
+    {
+        $records = MedicalRecord::where('doctor_id',  Auth::user()->id)->get();
+        //dd( User::where('role_id', 2)->get());
+        //return a view with doctors list and patient records
+        return view('clinic.doctor.list_patient_records', [
+            'students' => MedicalRecord::where('doctor_id',  Auth::user()->id)->paginate(25),
+            'doctors' => User::where('role_id', 2)->get()
+        ]);
+    }
+
     //delete que where student id is given
     public function delete(Student $student)
     {
         //find queue where student_id = $student->id
         $queue = Queue::where('student_id', $student->id)->first();
         //dd($queue);
-
+        $medicalRecord = MedicalRecord::where('student_id', $student->id)->first();
+        $medicalRecord->status = 0;
+        $medicalRecord->save();
         $queue->delete();
 
         return redirect('/clinic/doctor')->with('status', 'Queue deleted!');

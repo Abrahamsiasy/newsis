@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::table('lab_requests', function (Blueprint $table) {
             //
             $table->unsignedBigInteger('lab_queue_id')->nullable();
-            $table->foreign('lab_queue_id')->references('id')->on('lab_queues')->onDelete('cascade');
+            $table->foreign('lab_queue_id')->references('id')->on('lab_queues')->onDelete('set null');
         });
     }
 

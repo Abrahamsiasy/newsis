@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             //
             //
-            $table->unsignedBigInteger('role')->default(1);
+            //$table->unsignedBigInteger('role')->default(1);
         });
     }
 
@@ -29,7 +29,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->dropColumn('role');
+            //$table->dropColumn('role');
         });
     }
 };

@@ -13,7 +13,7 @@ class LabResultWidget extends AbstractWidget
      * @var array
      */
     protected $config = [];
-    public $reloadTimeout = 10;
+    public $reloadTimeout = 50000;
 
     /**
      * Treat this method as a controller action.

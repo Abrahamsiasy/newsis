@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->unsignedBigInteger('room_id')->default(1);
+            //$table->unsignedBigInteger('room_id')->default(1);
         });
     }
 
@@ -28,7 +28,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->dropColumn('room_id');
+            //$table->dropColumn('room_id');
         });
     }
 };

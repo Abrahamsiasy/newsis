@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('rols', function (Blueprint $table) {
-            $table->bigIncrements('rol_id');
-            $table->string('rol_name');
-            $table->string('rol_slug');
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id();
+            $table->string('role_name');
+            $table->string('role_slug');
             $table->timestamps();
         });
     }

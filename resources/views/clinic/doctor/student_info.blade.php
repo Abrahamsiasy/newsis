@@ -303,7 +303,6 @@
                                             <div class="card">
                                                 <div class="card-header">
                                                     <h3 class="card-title">List of Lab Results </h3>
-
                                                 </div>
                                                 <!-- /.card-header -->
                                                 <div class="card-body p-0 ">
@@ -313,6 +312,7 @@
                                                                 <th style="width: 10px">#</th>
                                                                 <th>Lab Request</th>
                                                                 <th>Lab Result</th>
+                                                                <th>Status</th>
 
                                                             </tr>
                                                         </thead>
@@ -326,7 +326,7 @@
                                                                 <td>{{ $key + 1 }}</td>
                                                                 <td> {{ $labReq[$i]->title }}
                                                                 <td>{{ $medhistory->title }}</td>
-                                                                </td>
+                                                                <td>New</td>
 
                                                           </tr>
                                                           @php
@@ -821,6 +821,12 @@
                         @method('DELETE')
                         <div class="flex gap-2 m-2 flex-col">
                             <button type="submit"Lab Descriptio class="btn btn-danger w-10">DONE</button>
+                        </div>
+                    </form>
+                    <form method="POST" action="/clinic/doctor/detail/status/{{ $student->id }}">
+                        @csrf
+                        <div class="flex gap-2 m-2 flex-col">
+                            <button type="submit"Lab Descriptio class="btn btn-warning w-10">WAITI FOR LAB RESULT</button>
                         </div>
                     </form>
                 </div>

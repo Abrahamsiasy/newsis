@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             $table->string('room_no');
+            $table->unsignedBigInteger('status')->nullable();
             $table->string('room_title');
             $table->string('room_type');//office lab or doctors room 
             $table->timestamps();

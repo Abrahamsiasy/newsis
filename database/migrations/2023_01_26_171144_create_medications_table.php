@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('medications', function (Blueprint $table) {
             $table->id();
-
             $table->string('name');
             $table->string('amount')->nullable();//50 mg tabs
             $table->string('frequency')->nullable();//how often dayyily or weakly 

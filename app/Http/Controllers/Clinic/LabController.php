@@ -9,6 +9,7 @@ use App\Models\Clinic\LabQueue;
 use App\Models\Clinic\LabResult;
 use App\Models\Clinic\LabRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Clinic\MedicalRecord;
 use Illuminate\Support\Facades\Auth;
 
 class LabController extends Controller
@@ -85,13 +86,15 @@ class LabController extends Controller
 
 
 
-        $result = new LabResult();
-        $result->title = $request->title;
-        $result->student_id = $student->id;
-        $result->lab_request_id = $labRequestId;
-        $result->lab_assistant_id = auth()->user()->id;
+        $labResult = new LabResult();
+        $labResult->title = $request->title;
+        $labResult->student_id = $student->id;
+        $labResult->lab_request_id = $labRequestId;
+        $labResult->lab_assistant_id = auth()->user()->id;
+        //dd($result);
+        $labResult->save();
         // dd($result);
-        $result->save();
+        // dd("saved");
         // dd($result);
         // dd("saved");
 
@@ -108,6 +111,14 @@ class LabController extends Controller
              //get the labque id and delte * from lab queue so it disapears from the labque list
             $labque = LabQueue::find($labRequest->lab_queue_id);
             $labque->delete();
+            //change medical_record status to 1 so it can notify the doctor about the labe result
+
+            //change medical_record status to 1 so it can notify the doctor about the labe result
+            $medicalRecord = MedicalRecord::where('student_id', $student->id)->first();
+            $medicalRecord->status = 1;
+            $medicalRecord->save();
+
+
             //after the labque is delted the it needs to create main que back to the doctor get doector id from lab report and put it back
             return redirect('/clinic/lab')->with('status', 'Lab Result submited to the doctor');
         } else {

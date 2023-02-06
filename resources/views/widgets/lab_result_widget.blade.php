@@ -1,48 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
+<script></script>
+@foreach ($newLabResults as $newLabResult)
+    {{-- <script>
+    
+    let a = '<a>';
+    let b = {{ $newLabResult->student_id }} 
+    let c = '</a>';
+    let d = a.concat(b,c)
+    $(document).Toasts('create', {
+        class: 'bg-danger',
+        title: 'Toast Title',
+        body: d,
+    })
+</script> --}}
+    <script>
+        function createToast(heading = "No heading", message = "No message", id = null) {
+            //Create empty variable for toasts container
+            let container;
+            //If container doesn't already exist create one
+            if (!document.querySelector("#custom-toast-holder")) {
+                container = document.createElement("div")
+                container.setAttribute("id", "custom-toast-holder");
+                document.body.appendChild(container);
+            } else {
+                // If container exists asign it to a variable
+                container = document.querySelector("#custom-toast-holder");
+            }
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toast with Link - Primer CSS</title>
-    <link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet" />
-</head>
+            //Create our toast HTML and pass the variables heading and message
+            let toast = `<div onclick="window.open('doctor/detail/${id}','mywindow');"  class="pointer custom-single-toast custom-custom-fade-out bg-red">
+              <div class="custom-toast-header">
+                <div  ><span class="toast-heading">${heading}</span></div>
+                <div  class="custom-close-toast">X</div>
+              </div>
 
-<body>
-    @foreach ($newLabResults as $newLabResult)
-        {{-- <script>
+              <div>
+                <div class="text-decoration-none custom-toast-content" >${message}</div>
+                </div>
+
+           </div>`;
+
+            // Once our toast is created add it to the container
+            // along with other toasts
+            container.innerHTML += toast;
+
+
+            //Save all those close buttons in one variable
+            let toastsClose = container.querySelectorAll(".custom-close-toast");
+
+            //Loop thorugh that variable
+            for (let i = 0; i < toastsClose.length; i++) {
+                //Add event listener
+                toastsClose[i].addEventListener("click", removeToast, false);
+            }
+
+        }
+
+        function removeToast(e) {
+            //First we need to prevent default
+            // to evade any unexpected behaviour
+            e.preventDefault();
+
+            //After that we add a class to our toast (.custom-single-toast)
+            e.target.parentNode.parentNode.classList.add("fade-out");
+
+            //After CSS animation is finished, remove the element
+            setTimeout(function() {
+                e.target.parentNode.parentNode.parentNode.removeChild(e.target.parentNode.parentNode);
+
+
+                if (isEmpty("#custom-toast-holder")) {
+                    console.log(isEmpty("#custom-toast-holder"));
+                    document.querySelector("#custom-toast-holder").parentNode.removeChild(document.querySelector(
+                        "#custom-toast-holder"));
+                }
+            }, 5);
+        }
+
+        function isEmpty(selector) {
+            return document.querySelector(selector).innerHTML.trim().length == 0;
+        }
+
+        //document.querySelector("#custom-toast-holder").parentNode.removeChild(document.querySelector("#custom-toast-holder"));
         
-        let a = '<a>';
-        let b = {{ $newLabResult->student_id }} 
-        let c = '</a>';
-        let d = a.concat(b,c)
-        $(document).Toasts('create', {
-            class: 'bg-danger',
-            title: 'Toast Title',
-            body: d,
-        })
-    </script> --}}
+        createToast("{{ $newLabResult->student->first_name }}", "{{ $newLabResult->student->student_id }}",
+            "{{ $newLabResult->student->id }}");
 
-        <div class="d-flex flex-justify-end overflow-h">
-            <!-- Toast -->
-            <div class="Toast Toast--success">
-                <span class="Toast-icon">
-                    <svg width="12" height="16" viewBox="0 0 12 16" class="octicon octicon-check"
-                        aria-hidden="true">
-                        <path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4
-						10l6.5-6.5L12 5z" />
-                    </svg>
-                </span>
-                <!-- Toast containing only action -->
-                <span class="Toast-content">
-                    <a href="https://geeksforgeeks.org">
-                        {{ $newLabResult->student->student_id }} 
-                    </a>
-                </span>
-            </div>
-        </div>
-    @endforeach
-</body>
+        // container.innerHTML == "";
+    </script>
 
-</html>
+    {{-- {{ $newLabResult->student->student_id }}  --}}
+@endforeach
