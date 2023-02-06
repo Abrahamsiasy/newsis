@@ -32,11 +32,6 @@
 
 
 
-
-
-
-
-
                             {{-- modal starts here --}}
 
                             <div id="contact-modal" class="modal fade" role="dialog">
@@ -53,20 +48,19 @@
                                                     <div class="form-group">
 
 
-                                                        
-
 
 
                                                         <label>Room NO.</label>
                                                         <select class="form-control select2 select2-hidden-accessible"
                                                             id="selected_value" style="width: 100%;" data-select2-id="1"
-                                                            name="room_id" tabindex="-1" aria-hidden="true">
+                                                            name="doctor_id" tabindex="-1" aria-hidden="true">
                                                             <option value="">Choose A doctor</option>
-                                                            //foreach doctors as doctor get the Id
+                                                            {{-- //foreach doctors as doctor get the Id --}}
                                                             @foreach ($doctors as $doctor)
-                                                            <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
+                                                                <option value="{{ $doctor->id }}">{{ $doctor->name }}
+                                                                </option>
                                                             @endforeach
-                                    
+
                                                             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
                                                             {{-- <script>
                                                                 document.getElementById("selected_value").addEventListener("change", function() {
@@ -87,6 +81,7 @@
                                                     <label for="message">Email: <p id="room_type"
                                                             class="badge bg-primary d-inline"></p>
                                                 </div>
+                                                <input type="text" name="student_id" id="student_id"  />
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default"
@@ -105,8 +100,11 @@
 
                             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
                             <script>
+                                //get the value from button input with the id contactt and assign a new paragrap with the same value 
+                            
                                 $(document).on('change', '#selected_value', function() {
                                     var id = document.getElementById('selected_value').value;
+
                                     $.ajax({
                                         method: 'GET',
                                         url: "{{ route('doctor.getdoctor') }}",
@@ -124,6 +122,16 @@
                                     });
 
                                 })
+
+                            //create onclick listenr for div with id student_id_btn
+                            $(document).on('click', '#student_id_btn', function() {
+                                var student_id=  document.getElementById('student_id_btn').value;
+                                document.getElementById('student_id').value = student_id;
+
+                            });   
+
+                                
+
                             </script>
 
 
@@ -189,9 +197,11 @@
                                                             class="btn btn-danger">Show</a>
 
 
-                                                        <div id="contact"><button type="button" class="btn btn-info btn"
-                                                                data-toggle="modal"
-                                                                data-target="#contact-modal">Assign</button></div>
+                                                        <div>
+                                                            <button id="student_id_btn"  value="{{ $student->student->id }}"
+                                                                type="button" class="btn btn-info btn" data-toggle="modal"
+                                                                data-target="#contact-modal" name="contactt">Assign</button>
+                                                        </div>
 
                                                     </div>
                                                 </td>
@@ -215,6 +225,12 @@
                                 </table>
 
                             </div>
+                            <script>
+                                var student_id_value = document.getElementById('contact').value;
+                                console.log(student_id_value);
+                                var student_id = document.getElementById('contact');
+                                student_id.value = student_id_value;
+                            </script>
                             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
                             <!-- Table with panel -->
                             <script>
@@ -234,6 +250,7 @@
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
+
     </div>
     <!-- /.content -->
 @endsection

@@ -82,12 +82,14 @@ class DoctorController extends Controller
         return $doctor;
     }
     //function changeRoom 
-    public function changeDoctor(Request $request)
+    public function changeDoctor(Request $request, Student $student)
     {
-        //get usther fro muther auth 
+        //get usther fro muther auth
+        dd($request);
         $user = Auth::user()->id;
-        $room = Room::where('id', $request->get('room_id'))->first();
-        $room = Room::where('id', $request->get('room_id'))->first();
+        $medicalRecord = MedicalRecord::where('student_id', $student->id)->first();
+        $room = Room::where('id', $request->get('doctor_id'))->first();
+        $room = Room::where('id', $request->get('doctor_id'))->first();
         //dd($room->id);
         $room->user_id = $user;
         $room->save();
