@@ -103,11 +103,11 @@
 
 <!-- REQUIRED SCRIPTS -->
 
-@vite('resources/js/app.js')
 <!-- AdminLTE App -->
-<script src="{{ asset('js/adminlte.min.js') }}" defer></script>
 
+@vite('resources/js/app.js')
 <script src="{{ asset('js/datatable/jquery-3.5.1.js') }}" defer></script>
+<script src="{{ asset('js/adminlte.min.js') }}" defer></script>
 <script src="{{ asset('js/datatable/jquery.dataTables.min.js') }}" defer></script>
 <script src="{{ asset('js/datatable/bootstrap4.min.js') }}" defer></script>
 

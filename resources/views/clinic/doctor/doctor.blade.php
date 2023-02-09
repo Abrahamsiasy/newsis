@@ -1,6 +1,17 @@
 {{-- view for queues of students to be accepted by the doctor  --}}
 @extends('layouts.app')
-
+@section('styles')
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('allinone/bootstrap-4.min.css') }}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('allinone/toastr.min.css') }}">
+@endsection
+@section('aboveScript')
+    <!-- SweetAlert2 -->
+    <script src="{{ asset('allinone/sweetalert2.min.js') }}" defer></script>
+    <!-- Toastr -->
+    <script src="{{ asset('allinone/toastr.min.js') }}" defer></script>
+@endsection
 @section('content')
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -43,9 +54,10 @@
                                                         <select class="form-control select2 select2-hidden-accessible"
                                                             id="selected_value" style="width: 100%;" data-select2-id="1"
                                                             name="room_id" tabindex="-1" aria-hidden="true">
-                                                            @foreach ($rooms as $room)
-                                                                <option value="{{ $room->id }}"> {{ $room->room_no }}
-                                                                </option>
+                                                            <option> Choose A Room
+                                                                @foreach ($rooms as $room)
+                                                            <option value="{{ $room->id }}"> {{ $room->room_no }}
+                                                            </option>
                                                             @endforeach
                                                             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
                                                             {{-- <script>
@@ -89,6 +101,30 @@
                             @asyncWidget('LabResultWidget')
                             {{-- widgit for the toasts end here --}}
 
+                            {{-- message card start --}}
+                            @if (session()->has('success'))
+                                <div class="p-3">
+                                    <div class="alert alert-success" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                                aria-hidden="true">&times;</span></button>
+                                        <strong>Success!</strong> {{ session()->get('success') }}
+                                    </div>
+                                </div>
+
+                                <script>
+                                    console.log(1);
+                                    $('.toastrDefaultSuccess').click(function() {
+                                        toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+                                    });
+                                    // toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+                                    window.setTimeout(function() {
+                                        $(".alert").fadeTo(500, 0).slideUp(500, function() {
+                                            $(this).remove();
+                                        });
+                                    }, 4000);
+                                </script>
+                            @endif
+                            {{-- message card end --}}
 
                             <p class="card-text">
                                 <!-- Table with panel -->

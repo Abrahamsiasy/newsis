@@ -22,8 +22,8 @@ class ReceptionController extends Controller
         //dd(Student::paginate(50));
 
         return view('clinic.reception.index', [
-                'students' => Student::paginate(50),
-             'campus' => Campus::all()
+            'students' => Student::paginate(50),
+            'campus' => Campus::all()
         ]);
     }
 
@@ -35,14 +35,15 @@ class ReceptionController extends Controller
     public function show(Request $request, Student $student)
     {
         //
+        dd($request);
         //dd($student->student_id);
         //dd($request->except('_token'));
-        
+
         // $formField['student_id'] = $student->id;
         // $formField['status'] = "$request->status";
         //dd($formField['status']);
         //Queue::create($formField);
-                
+
         $input = new Queue;
         $input->student_id = $student->id;
         $input->status = $request->status;
@@ -50,7 +51,6 @@ class ReceptionController extends Controller
         //dd($input);
         //return view students
         return redirect('/clinic/reception')->with('status', $student->student_id . 'Added To Queue list');
-
     }
 
     /**

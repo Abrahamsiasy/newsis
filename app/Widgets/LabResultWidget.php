@@ -4,6 +4,7 @@ namespace App\Widgets;
 
 use Arrilot\Widgets\AbstractWidget;
 use App\Models\Clinic\MedicalRecord;
+use Illuminate\Support\Facades\Auth;
 
 class LabResultWidget extends AbstractWidget
 {
@@ -23,8 +24,8 @@ class LabResultWidget extends AbstractWidget
     {
         //get user id from auth
         //$userId = Auth::user()->id;
-        //dd($userId);
-        // $medicalRecord = MedicalRecord::whereRaw('status = 1 AND doctor_id = 2' )->get();
+        //dd($userId); //should be 2 
+         $medicalRecord = MedicalRecord::whereRaw('status = 1 AND doctor_id = 2' )->get();
         // dd($medicalRecord);
         return view('widgets.lab_result_widget', [
             'config' => $this->config,

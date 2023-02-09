@@ -25,7 +25,6 @@
 
 
 
-
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -148,6 +147,7 @@
     <script src="{{ asset('allinone/bootstrap.bundle.min.js') }}" defer></script>
     <!-- Select2 -->
     <script src="{{ asset('allinone/select2.full.min.js') }}" defer></script>
+    <script src="{{ asset('allinone/select2.min.js') }}"></script>
     <!-- Bootstrap4 Duallistbox -->
     <script src="{{ asset('allinone/jquery.bootstrap-duallistbox.min.js') }}" defer></script>
     <!-- InputMask -->
@@ -169,14 +169,9 @@
     <script src="{{ asset('allinone/adminlte.min.js') }}" defer></script>
     <!-- AdminLTE for demo purposes -->
 
-    <script src="{{ asset('js/datatable/jquery-3.5.1.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/datatable/jquery-3.5.1.js') }}" defer></script> --}}
     <script src="{{ asset('js/datatable/jquery.dataTables.min.js') }}" defer></script>
     <script src="{{ asset('js/datatable/bootstrap4.min.js') }}" defer></script>
-
-
-
-
-
     @yield('scripts')
 </body>
 

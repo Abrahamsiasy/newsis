@@ -26,12 +26,13 @@ class HomeController extends Controller
     public function index()
     {
         //dd(Auth::user()->id);
-        if(Auth::user()->rol_id == 1){
+        if(Auth::user()->role_id == 1){
             return redirect()->route('rec');
-         } elseif (Auth::user()->rol_id == 2) {
+         } elseif (Auth::user()->role_id == 2) {
             return redirect()->route('doctor');
-         } elseif(Auth::user()->rol_id == 3) {
+         } elseif(Auth::user()->role_id == 3) {
             return redirect()->route('lab');
          } 
+
     }
 }

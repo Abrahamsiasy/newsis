@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Clinic;
 
 use App\Models\Student;
+use App\Models\Clinic\Room;
 use App\Models\Clinic\Queue;
 use Illuminate\Http\Request;
 use App\Models\Clinic\LabQueue;
@@ -26,7 +27,8 @@ class LabController extends Controller
         
         return view('clinic.lab.lab', [
             'LabRequests' => LabRequest::where('status', "0")->paginate(25),
-            // 'rooms' => Room::all(),
+            //get rooms with null user id
+            'rooms' => Room::whereNull('user_id')->get(),
         ]);
     }
 
@@ -93,49 +95,76 @@ class LabController extends Controller
         $labResult->lab_assistant_id = auth()->user()->id;
         //dd($result);
         $labResult->save();
-        // dd($result);
-        // dd("saved");
-        // dd($result);
-        // dd("saved");
+
 
 
         //get all requests with status 0 that belongs to the queue and count 
         $results = LabRequest::where('status', '=', 0)
             ->where('lab_queue_id', '=', $labRequest->lab_queue_id)
             ->get();
-        //dd($results);
         //total number of lab requests that belong to the queue
         $total = $results->count();
         //dd($total);
         if(!$total){
-             //get the labque id and delte * from lab queue so it disapears from the labque list
+             //get the labque id and delte * from lab queue so it disapears from the labque list    
             $labque = LabQueue::find($labRequest->lab_queue_id);
             $labque->delete();
-            //change medical_record status to 1 so it can notify the doctor about the labe result
 
             //change medical_record status to 1 so it can notify the doctor about the labe result
             $medicalRecord = MedicalRecord::where('student_id', $student->id)->first();
             $medicalRecord->status = 1;
             $medicalRecord->save();
-
-
             //after the labque is delted the it needs to create main que back to the doctor get doector id from lab report and put it back
-            return redirect('/clinic/lab')->with('status', 'Lab Result submited to the doctor');
-        } else {
-            //LabRequest::create($formField);
-            //after deleting lab que send the student straigh to the doctor by adding it to que with status one
-            //redirect to view lab
-            
-            //slect from queue where student_id = $student->id
-            //$queue = Queue::where('student_id', $student->id)->first(); //cant be used since queue is deleted
-            $labRequest = LabRequest::where('student_id', $student->id)->first();
             $queue = new Queue();
             $queue->student_id = $student->id;
             $queue->doctor_id = $labRequest->doctor_id;
-            $queue->status = "1";
+            $queue->status = 1;
             $queue->save();
+            return redirect('/clinic/lab')->with('status', 'Lab Result submited to the doctor');
+        } else {
+            //create a queue for the student with status 1 and update its medical record status to 1 so it can notify the doctor about the labe result
+            // $labRequest = LabRequest::where('student_id', $student->id)->first();
+            // $queue = new Queue();
+            // $queue->student_id = $student->id;
+            // $queue->doctor_id = $labRequest->doctor_id;
+            // $queue->status = 0;
+            // $queue->save();
             //dd($queue);
             return redirect('/clinic/lab')->with('status', 'Lab Result submited to the doctor');
         }
     }
+
+
+
+    public function getRoom(Request $request)
+    {
+        //error_log($request->get('id'));
+        // FInd a room with the given id
+        $room = Room::where('id', $request->get('id'))->first();
+        error_log($room);
+        //dd($room);
+        return $room;
+    }
+
+
+
+    //function changeRoom 
+    public function changeRoom(Request $request)
+    {
+        //get the user
+        $user = Auth::user()->id;
+        //get the room the user belongs to and set it to null
+        $room = Room::where('user_id', $user)->first();
+        $room->user_id = NULL;
+        //dd($room);
+        $room->save();
+
+        $room = Room::where('id', $request->get('room_id'))->first();
+        //dd($room->id);
+        $room->user_id = $user;
+        $room->save();
+        //redirect back with a succes message
+        return redirect()->back()->with('success', 'Succesfully changed the room');
+    }
+
 }

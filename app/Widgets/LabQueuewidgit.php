@@ -24,7 +24,7 @@ class LabQueuewidgit extends AbstractWidget
     public function run()
     {
         //
-        dd(LabQueue::all());
+        //dd(LabQueue::all());
         return view('widgets.lab_queuewidgit', [
             'config' => $this->config,
             'queues' => LabQueue::where('status', 0)->paginate(25),

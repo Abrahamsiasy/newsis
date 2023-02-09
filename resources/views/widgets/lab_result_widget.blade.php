@@ -1,4 +1,3 @@
-<script></script>
 @foreach ($newLabResults as $newLabResult)
     {{-- <script>
     
