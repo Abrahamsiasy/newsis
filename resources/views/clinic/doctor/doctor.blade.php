@@ -18,7 +18,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">{{ __('Dashboard') }}</h1>
+                    <h1 class="m-0">{{ __('') }}</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -51,13 +51,13 @@
                                                 <div class="form-group">
                                                     <div class="form-group">
                                                         <label>Room NO.</label>
-                                                        <select class="form-control select2 select2-hidden-accessible"
+                                                        <select class="form-control"
                                                             id="selected_value" style="width: 100%;" data-select2-id="1"
                                                             name="room_id" tabindex="-1" aria-hidden="true">
-                                                            <option> Choose A Room
-                                                                @foreach ($rooms as $room)
-                                                            <option value="{{ $room->id }}"> {{ $room->room_no }}
-                                                            </option>
+                                                            <option> Choose A Room </option>
+                                                            @foreach ($rooms as $room)
+                                                                <option value="{{ $room->id }}"> {{ $room->room_no }}
+                                                                </option>
                                                             @endforeach
                                                             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
                                                             {{-- <script>
@@ -140,7 +140,7 @@
                                                 <th>ACTION</th>
                                                 {{-- counter start here --}}
 
-                                                <label id="minutes">00</label>:<label id="seconds">00</label>
+                                                {{-- <label id="minutes">00</label>:<label id="seconds">00</label>
 
                                                 <script>
                                                     var minutesLabel = document.getElementById("minutes");
@@ -162,7 +162,7 @@
                                                             return valString;
                                                         }
                                                     }
-                                                </script>
+                                                </script> --}}
                                                 {{-- counter start here --}}
 
                                             </tr>
@@ -196,7 +196,7 @@
 
                                             @foreach ($students as $key => $student)
                                                 <tr>
-                                                    <td>{{ $key }}</td>
+                                                    <td>{{ $key + 1 }}</td>
                                                     <td>{{ $student->student->student_id }}</td>
                                                     <td>{{ $student->student->first_name }}</td>
 

@@ -22,6 +22,15 @@
     {{-- Datatable css --}}
     <link rel="stylesheet" href="{{ asset('css/datatable/dataTables.min.css') }}">
 
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('allinone/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('allinone/select2-bootstrap4.min.css') }}">
+
+    {{-- date picker  --}}
+    <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
+
+
 
     @yield('aboveScript')
 </head>
@@ -41,28 +50,28 @@
 
             <!-- Right navbar links -->
             @auth
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
-                        {{ Auth::user()->name }}
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" style="left: inherit; right: 0px;">
-                        <a href="{{ route('profile.show') }}" class="dropdown-item">
-                            <i class="mr-2 fas fa-file"></i>
-                            {{ __('My profile') }}
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+                            {{ Auth::user()->name }}
                         </a>
-                        <div class="dropdown-divider"></div>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <a href="{{ route('logout') }}" class="dropdown-item"
-                                onclick="event.preventDefault(); this.closest('form').submit();">
-                                <i class="mr-2 fas fa-sign-out-alt"></i>
-                                {{ __('Log Out') }}
+                        <div class="dropdown-menu dropdown-menu-right" style="left: inherit; right: 0px;">
+                            <a href="{{ route('profile.show') }}" class="dropdown-item">
+                                <i class="mr-2 fas fa-file"></i>
+                                {{ __('My profile') }}
                             </a>
-                        </form>
-                    </div>
-                </li>
-            </ul>
+                            <div class="dropdown-divider"></div>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <a href="{{ route('logout') }}" class="dropdown-item"
+                                    onclick="event.preventDefault(); this.closest('form').submit();">
+                                    <i class="mr-2 fas fa-sign-out-alt"></i>
+                                    {{ __('Log Out') }}
+                                </a>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
             @endauth
         </nav>
         <!-- /.navbar -->
@@ -71,7 +80,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="/" class="brand-link">
-                <img src="{{ asset('images/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+                <img src="{{ asset('images/Ju_logo.png') }}" alt="Jimma Univercity Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">Jimma Univercity</span>
             </a>
@@ -82,7 +91,7 @@
             @auth
                 @include('layouts.navigation')
 
-        @endauth
+            @endauth
 
 
 
@@ -125,6 +134,9 @@
     <script src="{{ asset('js/datatable/bootstrap4.min.js') }}" defer></script>
 
 
+    <!-- Select2 -->
+    <script src="{{ asset('allinone/select2.full.min.js') }}" defer></script>
+    <script src="{{ asset('allinone/select2.min.js') }}"></script>
     @yield('scripts')
 </body>
 

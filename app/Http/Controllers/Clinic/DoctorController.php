@@ -18,6 +18,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Clinic\MedicalRecord;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Clinic\PersonalRecord;
+use session;
 
 class DoctorController extends Controller
 {
@@ -63,6 +64,7 @@ class DoctorController extends Controller
     {
         //get usther fro muther auth 
         //get the user
+        // dd(Auth::user()->id);
         $user = Auth::user()->id;
         //get the room the user belongs to and set it to null
         $room = Room::where('user_id', $user)->first();
@@ -121,6 +123,19 @@ class DoctorController extends Controller
         Student $student,
         MedicalRecord $histories,
     ) {
+
+        //create nullable values to avoide error when creating que and medical record
+        //create nullable value for histories 
+        $histories = null;
+        $labhistories = null;
+        $medhistories = null;
+        $labReq = null;
+        $personalmedhistories = null;
+
+
+
+
+
         //check if the student exists in queue
         $queue = Queue::where('student_id', $student->id)->first();
         if ($queue == null) {
@@ -189,7 +204,8 @@ class DoctorController extends Controller
             'labhistories' => $labhistories,
             'medhistories' => $medhistories,
             'labReq' => $labReq,
-            'personalmedhistories' => $personalmedhistories
+            'personalmedhistories' => $personalmedhistories,
+            'queue' => $queue
         ]);
     }
 
@@ -221,9 +237,13 @@ class DoctorController extends Controller
     public function updateGBasicRecord(Request $request, Student $student)
     {
 
+        //dd($request->number_of_live_births);
         $formField = $request->validate([
             'last_menstrual_cycle' => 'required',
-            'number_of_pregnancies'  => 'required',
+            'number_of_pregnancies'  => 'required|numeric',
+            'number_of_live_births' => 'required',
+            'manopause_date'=>'required',
+            'pregnancie_complications' => 'required'
         ]);
         //$histories = MedicalRecord::where('student_id', $student->id)->first();
         if ($request->number_of_live_births == null) {
@@ -232,17 +252,26 @@ class DoctorController extends Controller
         if ($request->pregnancie_complications == null) {
             $pregnancie_complications = 0;
         }
-        if ($request->manopause_date == null) {
-            $manopause_date = 0;
+        if ($request->manopause_date !== null) {
+            $manopause_date = '2023-02-01';
         }
-        $histories = new Women();
+        if ($request->last_menstrual_cycle !== null) {
+            $last_menstrual_cycle = '2023-02-01';
+        }
+        if ($request->pregnancie_complications == null) {
+            $pregnancie_complications = 0;
+        }
 
+
+
+        $histories = new Women();
+        
         $histories->last_menstrual_cycle = $formField['last_menstrual_cycle'];
         $histories->number_of_pregnancies = $formField['number_of_pregnancies'];
-        $histories->number_of_live_births = $number_of_live_births;
-        $histories->pregnancie_complications = $pregnancie_complications;
-        $histories->manopause_date = $manopause_date;
-        //dd($personalmedicalrecord);
+        $histories->pregnancie_complications = $formField['pregnancie_complications'];
+        $histories->number_of_live_births = $formField['number_of_live_births'];
+        $histories->manopause_date = $formField['manopause_date'];
+        //dd($histories);
         $histories->save();
         if ($histories->save()) {
             //dd("Success");
@@ -305,6 +334,9 @@ class DoctorController extends Controller
     //storeMedRecord
     public function storeMedRecord(Request $request, Student $student)
     {
+        //create a session called modal_type 
+      
+        
         $formField = $request->validate([
             'name' => 'required',
             'amount'  => 'required',
@@ -326,13 +358,19 @@ class DoctorController extends Controller
         $medicalrecord->save();
         //dd($medicalrecord->id);
         //redirect to its own page
-        return redirect('/clinic/doctor/detail/' . $student->id)->with('status', 'Medcin added!');
+        return redirect('/clinic/doctor/detail/' . $student->id)->with('status', 'Medcin added!'); 
+        ;
     }
 
     //update MedRecord
     public function updateMedRecord(Request $request, Student $student)
     {
         //dd($student->id);
+        // session_start();
+        // $_SESSION["med_session"] = "med_session";
+        $request->session()->flash('error_med_message', 'An error occurred.');
+
+        // dd();
         $formField = $request->validate([
             'name' => 'required',
             'amount'  => 'required',
@@ -353,6 +391,12 @@ class DoctorController extends Controller
         $medication->save();
         // dd($medication);
         //redirect to its own page
+        //destroy med session data
+        // session_destroy();
+        session->flush();
+
+
+
         return redirect('/clinic/doctor/detail/' . $student->id)->with('status', 'Medcin added!');
     }
 
@@ -423,6 +467,7 @@ class DoctorController extends Controller
     public function delete(Student $student)
     {
         //find queue where student_id = $student->id
+        
         $queue = Queue::where('student_id', $student->id)->first();
         $medicalRecord = MedicalRecord::where('student_id', $student->id)->first();
         $medicalRecord->status = 0;
@@ -442,7 +487,9 @@ class DoctorController extends Controller
     //update personal record 
     public function updatePersonalMedRecord(Request $request, Student $student)
     {
-        //dd($request);personal_id
+        $request->session()->flash('error_per_message', 'An error occurred.');
+
+        //dd($request);//personal_id
         $formField = $request->validate([
             'comments' => 'required',
             'disease_or_conditions' => 'required',
@@ -452,6 +499,8 @@ class DoctorController extends Controller
         $personalMedication->comments = $formField['comments']; //name
         $personalMedication->disease_or_conditions = $formField['disease_or_conditions']; //amount in grams
         $personalMedication->save();
+        session->flush();
+
         return redirect('/clinic/doctor/detail/' . $student->id)->with('status', ' Updated!');
     }
     //delete a given Medication

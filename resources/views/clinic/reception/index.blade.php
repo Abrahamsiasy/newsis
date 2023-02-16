@@ -135,13 +135,6 @@
         });
 
 
-        // $('#payMethod').on('change', function() {
-        //     var status_input = document.getElementById("status_input");
-        //     status_input.value = "5";
-        //     console.log("Not Emergency")
-        // });
-
-
 
 
 

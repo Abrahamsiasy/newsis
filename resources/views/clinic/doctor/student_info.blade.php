@@ -20,7 +20,10 @@
                             <div class="form-group">
                                 <label>Medication Name</label>
                                 <input class="form-control" placeholder="Enter ..." {{-- value="{{$medhistories->id}}" --}} id="em_name"
-                                    name="name" />
+                                    name="name" value="{{ old('name') }}" />
+                                @error('name')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
 
                             </div>
                         </div>
@@ -28,35 +31,50 @@
                             <!-- input -->
                             <div class="form-group">
                                 <label>Medication Amount</label>
-                                <input class="form-control" placeholder="Enter ..." id="em_amount" name="amount" />
+                                <input class="form-control" placeholder="Enter ..." id="em_amount" name="amount"
+                                    value="{{ old('amount') }}" />
+                                @error('amount')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <!-- input -->
                             <div class="form-group">
                                 <label>Medication Frequency</label>
-                                <input class="form-control" placeholder="Enter ..." id="em_frequency" name="frequency" />
+                                <input class="form-control" placeholder="Enter ..." id="em_frequency" name="frequency"
+                                    value="{{ old('frequency') }}" />
+                                @error('frequency')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <!-- input -->
                             <div class="form-group">
                                 <label>Medication How Much</label>
-                                <input class="form-control" placeholder="Enter ..." id="em_how_much" name="how_much" />
+                                <input class="form-control" placeholder="Enter ..." id="em_how_much" name="how_much"
+                                    value="{{ old('how_much') }}" />
+                                @error('how_much')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <!-- textarea -->
                             <div class="form-group">
                                 <label>Reason</label>
-                                <textarea class="form-control" rows="3" placeholder="Enter ..." id="em_why" name="why"></textarea>
+                                <textarea class="form-control" rows="3" placeholder="Enter ..." id="em_why" name="why" ">{{ old('why') }}</textarea>
+                                @error('why')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                     </div>
 
 
                     <div class="card-footer p-10 m-10 ">
-                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-lg">Update</button>
                         {{-- <button type="submit" class="btn btn-primary btn-lg">New</button> --}}
                     </div>
                 </form>
@@ -68,10 +86,10 @@
     {{-- delete confirmation modal start here --}}
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
         aria-hidden="true">
-        
+
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                medical delete
+                {{-- medical delete --}}
                 <form method="POST" action="/clinic/doctor/student/detail/med/delete/{{ $student->id }}">
                     @csrf
                     @method('DELETE')
@@ -102,39 +120,39 @@
 
 
 
-     {{-- personal delete confirmation modal start here --}}
-     <div class="modal fade" id="deletePersonalModal" tabindex="-1" role="dialog" aria-labelledby="deletePersonalModalLabel"
-     aria-hidden="true">
-     <div class="modal-dialog" role="document">
-         <div class="modal-content">
-            personal delete
-             <form method="POST" action="/clinic/doctor/student/detail/personal/delete/{{ $student->id }}">
-                 @csrf
-                 @method('DELETE')
-                 <div class="modal-header">
-                     <h3 class="modal-title" id="deletePersonalModalLabel">Comfirm Delete</h3>
-                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                         <span aria-hidden="true">&times;</span>
-                     </button>
-                 </div>
-                 <div class="modal-body">
+    {{-- personal delete confirmation modal start here --}}
+    <div class="modal fade" id="deletePersonalModal" tabindex="-1" role="dialog"
+        aria-labelledby="deletePersonalModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                {{-- personal delete --}}
+                <form method="POST" action="/clinic/doctor/student/detail/personal/delete/{{ $student->id }}">
+                    @csrf
+                    @method('DELETE')
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="deletePersonalModalLabel">Comfirm Delete</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
 
-                     <div class="form-group">
-                         {{-- hiden input to pass the id --}}
-                         <input type="hidden" name="personal_id" id="personal_id_id_delete" />
-                         <h4 for="recipient-name" class="col-form-label">Are you susre you wante to delete this
-                             Medication from medication list:</label>
-                     </div>
-                 </div>
-                 <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                     <button type="submit" class="btn btn-danger">Delete</button>
-                 </div>
-             </form>
-         </div>
-     </div>
- </div>
- {{-- personal delete confirmation end start here --}}
+                        <div class="form-group">
+                            {{-- hiden input to pass the id --}}
+                            <input type="hidden" name="personal_id" id="personal_id_id_delete" />
+                            <h4 for="recipient-name" class="col-form-label">Are you susre you wante to delete this
+                                Medication from medication list:</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- personal delete confirmation end start here --}}
 
     {{-- personal detail edit modal start --}}
     <div class="modal fade" id="personalEditModal" tabindex="-1" role="dialog" aria-labelledby="personalModalLabel"
@@ -144,40 +162,48 @@
                 <form method="POST" action="/clinic/doctor/detail/record/edit/personal/{{ $student->id }}">
                     @csrf
                     @method('PUT')
-                        <div class="col-sm-12 m-10 p-10">
-                            <!-- input -->
-                            <input type="hidden" name="personal_id" id="personal_id_id_edit" />
-                            <div class="form-group">
-                                <label>Disease Or Conditionse</label>
-                                <input class="form-control" id="id_disease_or_conditions" name="disease_or_conditions" />
+                    <div class="col-sm-12 m-10 p-10">
+                        <!-- input -->
+                        <input type="hidden" name="personal_id" id="personal_id_id_edit" />
+                        <div class="form-group">
+                            <label>Disease Or Conditionse</label>
+                            <input class="form-control" id="id_disease_or_conditions" name="disease_or_conditions"
+                                value="{{ old('disease_or_conditions') }}" />
+                            @error('disease_or_conditions')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <!-- textarea -->
+                        <div class="form-group">
+                            <label>About It</label>
+                            <textarea class="form-control" rows="3" id="id_comments" name="comments">{{ old('comments') }}</textarea>
+                            @error('comments')
+                                <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <!-- Bootstrap Switch -->
+                        <div class="card card-secondar p-10 m-20y">
+
+                            <div class="card-body p-10">
+                                <input type="checkbox" name="current" style="width:30px;height: 30px;" value="1">
+                                <label>Still Active</label>
+
                             </div>
                         </div>
-                        <div class="col-sm-12">
-                            <!-- textarea -->
-                            <div class="form-group">
-                                <label>About It</label>
-                                <textarea class="form-control" rows="3" id="id_comments" name="comments"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <!-- Bootstrap Switch -->
-                            <div class="card card-secondar p-10 m-20y">
-
-                                <div class="card-body p-10">
-                                    <input type="checkbox" name="current" style="width:30px;height: 30px;"
-                                        value="1">
-                                    <label>Still Active</label>
-
-                                </div>
-                            </div>
-                            <!-- /.card -->
-                        </div>
+                        <!-- /.card -->
+                    </div>
 
 
-                    <div class="card-footer p-0 ">
-                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+
+                    <div class="card-footer p-10 m-10 ">
+                        <button type="submit" class="btn btn-primary btn-lg">Update</button>
                         {{-- <button type="submit" class="btn btn-primary btn-lg">New</button> --}}
                     </div>
+
                 </form>
             </div>
         </div>
@@ -200,7 +226,8 @@
                     <div class="card card-primary card-outline">
                         <!-- /.card-basic info start -->
                         <div class="card-body box-profile">
-                            <h3 class="profile-username text-center">{{ $student->first_name . ' ' . $student->last_name }}
+                            <h3 class="profile-username text-center">
+                                {{ $student->first_name . ' ' . $student->last_name }}
                             </h3>
                             <p class="text-muted text-center">
                                 {{ $student->sex . ' ' }}
@@ -215,17 +242,18 @@
 
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
-                                    <b>Blood Type</b> <a class="float-right">{{ $histories->blood_type }}</a>
+                                    <b>Blood Type</b> <a class="float-right">{{ $histories->blood_type ?? '' }}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Highet</b> <a class="float-right">{{ $histories->height }}</a>
+                                    <b>Highet</b> <a class="float-right">{{ $histories->height ?? '' }}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Weight</b> <a class="float-right">{{ $histories->weight }}</a>
+                                    <b>Weight</b> <a class="float-right">{{ $histories->weight ?? '' }}</a>
                                 </li>
                                 @if ($student->sex == 'F')
                                     <li class="list-group-item">
-                                        <b>NO. of Pregnancies</b> <a class="float-right"></a>
+                                        <b>NO. of Pregnancies</b> {{ $histories->student->woman->last_menstrual_cycle ?? '' }} <a class="float-right"></a>
+                                        @dump($histories->woman->last_menstrual_cycle ?? '')
                                     </li>
                                     <li class="list-group-item">
                                         <b>NO. of Live Births</b> <a class="float-right"></a>
@@ -291,15 +319,18 @@
                                 </a>
 
                                 <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                                    {{-- form to update weight, Femal info start --}}
+                                    {{-- form to update  Femal info start --}}
                                     <form method="POST"
                                         action="/clinic/doctor/detail/record/basicg/{{ $student->id }}">
+                                        @csrf
                                         <div class="card-body">
                                             <!-- input -->
                                             <div class="form-group">
                                                 <label>Last Menstrual Cycle</label>
                                                 <input class="form-control" placeholder="Enter ..."
-                                                    name="last_menstrual_cycle" />
+                                                    name="last_menstrual_cycle" /> 
+
+    
                                             </div>
                                             <!-- input -->
                                             <div class="form-group">
@@ -350,7 +381,7 @@
                                 <li class="nav-item"><a class="nav-link" href="#medication"
                                         data-toggle="tab">Medication</a>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="#lab_form" data-toggle="tab">Labratory
+                                <li class="nav-item"> <a class="nav-link" href="#lab_form" data-toggle="tab">Labratory
                                         Form</a>
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="#personal" data-toggle="tab">Personal
@@ -395,46 +426,51 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach ($medhistories as $key => $medhistory)
-                                                            <tr>
-                                                                <td>{{ $key + 1 }}</td>
-                                                                <td>{{ $medhistory->name }}</td>
-                                                                <td>
-                                                                    <span
-                                                                        class="badge bg-success">{{ $medhistory->amount }}</span>
-                                                                </td>
-                                                                <td><span
-                                                                        class="badge bg-success">{{ $medhistory->frequency }}</span>
-                                                                </td>
-                                                                <td><span
-                                                                        class="badge bg-success">{{ $medhistory->how_much }}</span>
-                                                                </td>
-                                                                <td><span
-                                                                        class="badge bg-success">{{ $medhistory->why }}</span>
-                                                                </td>
-                                                                <td class="float-right">
-                                                                    <button type="button" class="btn btn-info btn-sm"
-                                                                        data-toggle="modal" id="student_id_btn"
-                                                                        data-target="#contact-modal"
-                                                                        onclick="getMedicationIdEdit('{{ $medhistory->id }}', '{{ $medhistory->name }}', '{{ $medhistory->amount }}', '{{ $medhistory->frequency }}',' {{ $medhistory->how_much }}', '{{ $medhistory->why }}' )">
-                                                                        <i class="fas fa-edit"></i>
-                                                                    </button>
-                                                                    {{-- <a href="/clinic/doctor/student/detail/med/delete/{{ $medhistory->id }}"
+                                                        {{-- @dd($medhistories) --}}
+                                                        @if ($medhistories)
+                                                            @foreach ($medhistories as $key => $medhistory)
+                                                                <tr>
+                                                                    <td>{{ $key + 1 }}</td>
+                                                                    <td>{{ $medhistory->name ?? '' }}</td>
+                                                                    <td>
+                                                                        <span
+                                                                            class="badge bg-success">{{ $medhistory->amount ?? '' }}</span>
+                                                                    </td>
+                                                                    <td><span
+                                                                            class="badge bg-success">{{ $medhistory->frequency ?? '' }}</span>
+                                                                    </td>
+                                                                    <td><span
+                                                                            class="badge bg-success">{{ $medhistory->how_much ?? '' }}</span>
+                                                                    </td>
+                                                                    <td><span
+                                                                            class="badge bg-success">{{ $medhistory->why ?? '' }}</span>
+                                                                    </td>
+                                                                    <td class="float-right">
+                                                                        <button type="button" class="btn btn-info btn-sm"
+                                                                            data-toggle="modal" id="student_id_btn"
+                                                                            data-target="#contact-modal"
+                                                                            onclick="getMedicationIdEdit('{{ $medhistory->id }}', '{{ $medhistory->name }}', '{{ $medhistory->amount }}', '{{ $medhistory->frequency }}',' {{ $medhistory->how_much }}', '{{ $medhistory->why }}' )">
+                                                                            <i class="fas fa-edit"></i>
+                                                                        </button>
+                                                                        {{-- <a href="/clinic/doctor/student/detail/med/delete/{{ $medhistory->id }}"
                                                                         class="btn btn-danger btn-sm">
                                                                         <i class="fas fa-trash"></i>
                                                                     </a> --}}
 
-                                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                                        id="student_id_btn" data-toggle="modal"
-                                                                        data-target="#deleteModal" data-whatever="@mdo"
-                                                                        onclick="getMedicationIdDelete('{{ $medhistory->id }}' )">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </button>
+                                                                        <button type="button"
+                                                                            class="btn btn-danger btn-sm"
+                                                                            id="student_id_btn" data-toggle="modal"
+                                                                            data-target="#deleteModal"
+                                                                            data-whatever="@mdo"
+                                                                            onclick="getMedicationIdDelete('{{ $medhistory->id }}' )">
+                                                                            <i class="fas fa-trash"></i>
+                                                                        </button>
 
 
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        @endif
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -479,32 +515,35 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach ($personalmedhistories as $key => $personalmedhistory)
-                                                                <tr>
-                                                                    <td style="width: 10px">{{ $key + 1 }}</td>
-                                                                    <td>{{ $personalmedhistory->disease_or_conditions }}
-                                                                    </td>
-                                                                    <td>{{ $personalmedhistory->comments }}t</td>
-                                                                    <td class="float-right">
-                                                                        <button type="button" class="btn btn-info btn-sm"
-                                                                            data-toggle="modal" id="student_id_btn"
-                                                                            data-target="#personalEditModal"
-                                                                            onclick="getPersonalMedicationIdEdit('{{ $personalmedhistory->id }}', '{{ $personalmedhistory->disease_or_conditions }}', '{{ $personalmedhistory->comments }}' )">
-                                                                            <i class="fas fa-edit"></i>
-                                                                        </button>
+                                                            @if ($personalmedhistories)
+                                                                @foreach ($personalmedhistories as $key => $personalmedhistory)
+                                                                    <tr>
+                                                                        <td style="width: 10px">{{ $key + 1 }}</td>
+                                                                        <td>{{ $personalmedhistory->disease_or_conditions ?? '' }}
+                                                                        </td>
+                                                                        <td>{{ $personalmedhistory->comments ?? '' }}t</td>
+                                                                        <td class="float-right">
+                                                                            <button type="button"
+                                                                                class="btn btn-info btn-sm"
+                                                                                data-toggle="modal" id="student_id_btn"
+                                                                                data-target="#personalEditModal"
+                                                                                onclick="getPersonalMedicationIdEdit('{{ $personalmedhistory->id }}', '{{ $personalmedhistory->disease_or_conditions }}', '{{ $personalmedhistory->comments }}' )">
+                                                                                <i class="fas fa-edit"></i>
+                                                                            </button>
 
-                                                                        <button type="button"
-                                                                            class="btn btn-danger btn-sm"
-                                                                            id="student_id_btn" data-toggle="modal"
-                                                                            data-target="#deletePersonalModal"
-                                                                            data-whatever="@mdo"
-                                                                            onclick="getPersonalMedicationIdDelete('{{ $personalmedhistory->id }}' )">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
+                                                                            <button type="button"
+                                                                                class="btn btn-danger btn-sm"
+                                                                                id="student_id_btn" data-toggle="modal"
+                                                                                data-target="#deletePersonalModal"
+                                                                                data-whatever="@mdo"
+                                                                                onclick="getPersonalMedicationIdDelete('{{ $personalmedhistory->id }}' )">
+                                                                                <i class="fas fa-trash"></i>
+                                                                            </button>
+                                                                        </td>
 
-                                                                </tr>
-                                                            @endforeach
+                                                                    </tr>
+                                                                @endforeach
+                                                            @endif
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -593,6 +632,9 @@
                                                 <div class="form-group">
                                                     <label>Medication Name</label>
                                                     <input class="form-control" placeholder="Enter ..." name="name" />
+                                                    @error('name')
+                                                        <p class="text-danger">{{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
@@ -600,6 +642,9 @@
                                                 <div class="form-group">
                                                     <label>Medication Amount</label>
                                                     <input class="form-control" placeholder="Enter ..." name="amount" />
+                                                    @error('amount')
+                                                        <p class="text-danger">{{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
@@ -608,6 +653,9 @@
                                                     <label>Medication Frequency</label>
                                                     <input class="form-control" placeholder="Enter ..."
                                                         name="frequency" />
+                                                    @error('frequency')
+                                                        <p class="text-danger">{{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
@@ -616,6 +664,9 @@
                                                     <label>Medication How Much</label>
                                                     <input class="form-control" placeholder="Enter ..."
                                                         name="how_much" />
+                                                    @error('how_much')
+                                                        <p class="text-danger">{{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
@@ -623,6 +674,9 @@
                                                 <div class="form-group">
                                                     <label>Reason</label>
                                                     <textarea class="form-control" rows="3" placeholder="Enter ..." name="why"></textarea>
+                                                    @error('why')
+                                                        <p class="text-danger">{{ $message }}</p>
+                                                    @enderror
                                                 </div>
                                             </div>
 
@@ -652,6 +706,7 @@
                                                     <label>Disease Or Conditionse</label>
                                                     <input class="form-control" placeholder="Enter ..."
                                                         name="disease_or_conditions" />
+
                                                 </div>
                                             </div>
                                             <div class="col-sm-10">
@@ -673,13 +728,13 @@
                                                     </div>
                                                 </div>
                                                 <!-- /.card -->
+                                                <div class="card-footer p-0 d-block">
+
+                                                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                                                    {{-- <button type="submit" class="btn btn-primary btn-lg">New</button> --}}
+                                                </div>
+
                                             </div>
-
-
-                                        </div>
-                                        <div class="card-footer p-0 ">
-                                            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-                                            {{-- <button type="submit" class="btn btn-primary btn-lg">New</button> --}}
                                         </div>
                                     </form>
 
@@ -816,7 +871,7 @@
                                             </div>
                                             <div class="col-sm-9">
                                                 <!-- checkbox -->
-                                                <ul class="list-group col-sm-12">
+                                                <ul class="list-group col-sm-12 font-weight-light">
                                                     {{-- start of blood samples --}}
 
                                                     <li class="list-group-item rounded-0 col-sm-12">
@@ -824,55 +879,64 @@
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="blooda"
                                                                     name="blood[]" value="Hemoglobin " type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label" for="blooda">Hb</label>
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
+                                                                    for="blooda">Hb</label>
                                                             </div>
 
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="bloodb"
                                                                     name="blood[]" value="Hematocrit " type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="bloodb">HCT</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="bloodc"
                                                                     name="blood[]" value="White Blood Cell count "
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="bloodc">WBC</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="bloodd"
                                                                     name="blood[]" value="Red Blood Cell count "
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="bloodd">RBC</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="bloode"
                                                                     name="blood[]" value="Platelet count "
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="bloode">PLT</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="bloodf"
                                                                     name="blood[]" value="Mean corpuscular volume "
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="bloodf">MCV</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="bloodg"
                                                                     name="blood[]" value="Absolute neutrophil count"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="bloodg">ANC</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="bloodh"
                                                                     name="blood[]" value=" Mean corpuscular hemoglobin"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="bloodh">MCH</label>
                                                             </div>
                                                             <div class="d-inline m-4">
@@ -880,7 +944,8 @@
                                                                     name="blood[]"
                                                                     value="Mean corpuscular hemoglobin concentration"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="bloodi">MCHC</label>
                                                             </div>
                                                         </div>
@@ -893,52 +958,61 @@
                                                                 <input class="custom-control-input " id="feacesa"
                                                                     name="feaces[]" value="Complete Blood Count"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="faecesa">CBC</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="feacesb"
                                                                     name="feaces[]" value="Glucose" type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="feacesb">GLU</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="feacesc"
                                                                     name="feaces[]" value="Blood Urea Nitrogen"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="feacesc">BUN</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="feacesd"
                                                                     name="feaces[]" value="Sodium" type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="feacesd">NA</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="feacese"
                                                                     name="feaces[]" value="Potassium" type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="feacese">K</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="feacesf"
                                                                     name="feaces[]" value="Chloride" type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="feacesf">CL</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="feacesg"
                                                                     name="feaces[]" value="Carbon Dioxide"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="feacesg">CO2</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="feacesh"
                                                                     name="feaces[]" value="PHOS" type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
-                                                                    for="feacesh">Phosphorus</label>
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
+                                                                    for="feacesh"><span
+                                                                        class="text-sm">Phosphrs</span></label>
                                                             </div>
                                                         </div>
                                                     </li>
@@ -953,7 +1027,8 @@
                                                                 <input class="custom-control-input " id="urina"
                                                                     name="urin[]" value="Complete Blood Count"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="urina">CBC</label>
                                                             </div>
 
@@ -961,34 +1036,39 @@
                                                                 <input class="custom-control-input " id="urineb"
                                                                     name="urin[]" value="Urine Analysis"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="urineb">U/A</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="urinc"
                                                                     name="urin[]" value="Basic Metabolic Panel"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="urinc">BMP</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="urind"
                                                                     name="urin[]" value="Liver Function Tests"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="urind">LFT</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="urine"
                                                                     name="urin[]" value="Comprehensive Metabolic Panel"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="urine">CMP</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="urinf"
                                                                     name="urin[]" value="Lipid Profile" type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="urinf">Lipid </label>
                                                             </div>
                                                             <div class="d-inline m-4">
@@ -996,7 +1076,8 @@
                                                                     name="urin[]"
                                                                     value="Prothrombin Time/International Normalized Ratio"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="urinf">PT/INR </label>
                                                             </div>
                                                         </div>
@@ -1010,60 +1091,69 @@
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="sputuma"
                                                                     name="sputum[]" value="Color" type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="sputuma">C</label>
                                                             </div>
 
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="sputumb"
                                                                     name="sputum[]" value="Appearance" type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="sputumb">A</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="sputumc"
                                                                     name="sputum[]" value="Odor" type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="sputumc">O</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="sputumd"
                                                                     name="sputum[]" value="Amount" type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="sputumd">Am</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="sputume"
                                                                     name="sputum[]" value="PH" type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="sputume">Ph</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="sputumf"
                                                                     name="sputum[]" value="Microbial Content"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="sputumf">MC</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="sputumg"
                                                                     name="sputum[]" value="Red Blood Cells"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="sputumg">RBC</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="sputumh"
                                                                     name="sputum[]" value="White  Blood Cells"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="sputumh">WBC</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="sputumi"
                                                                     name="sputum[]" value="Atypical Cells"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="sputumi">AC</label>
                                                             </div>
                                                         </div>
@@ -1078,7 +1168,8 @@
                                                                 <input class="custom-control-input " id="swapa"
                                                                     name="swap[]" value="Total Plate Count"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="swapa">TPC</label>
                                                             </div>
 
@@ -1086,14 +1177,16 @@
                                                                 <input class="custom-control-input " id="swapb"
                                                                     name="swap[]" value="Total Coliform Count"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="swapb">TCC</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="swapc"
                                                                     name="swap[]" value="Escherichia coli"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="swapc">E. coli</label>
                                                             </div>
 
@@ -1101,35 +1194,41 @@
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="swapd"
                                                                     name="swap[]" value="Enterococci " type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="swapd">ENT</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="swape"
                                                                     name="swap[]" value="Salmonella spp "
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="swape">Sspp</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="swapf"
                                                                     name="swap[]" value="Clostridium perfringens"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
-                                                                    for="swapf">C. perfringens</label>
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
+                                                                    for="swapf"><span class="text-sm">C.
+                                                                        perfris</span></label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="swapg"
                                                                     name="swap[]" value="Staphylococcus aureus"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
-                                                                    for="swapg">S. aureus</label>
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
+                                                                    for="swapg">S. aur</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="swaph"
                                                                     name="swap[]" value="Total Yeast and Mold"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="swaph">TYM</label>
                                                             </div>
 
@@ -1143,52 +1242,60 @@
                                                                 <input class="custom-control-input " id="fluidsa"
                                                                     name="fluids[]" value="Visual Inspection"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="fluidsa">V</label>
                                                             </div>
 
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="fluidsb"
                                                                     name="fluids[]" value="Viscosity" type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="fluidsb">VIS</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="fluidsc"
                                                                     name="fluids[]" value="Flow Rate" type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="fluidsc">FR</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="fluidsd"
                                                                     name="fluids[]" value="Specific Gravity "
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="fluidsd">SG</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="fluidse"
                                                                     name="fluids[]" value="Chlorides " type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="fluidse">Cl</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="fluidsf"
                                                                     name="fluids[]" value="Turbidity" type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="fluidsf">TUR</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="fluidsg"
                                                                     name="fluids[]" value="Nitrate" type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="fluidsg">NO3</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="fluidsh"
                                                                     name="fluids[]" value="Total Dissolved Solids"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="fluidsh">TDS</label>
                                                             </div>
 
@@ -1197,7 +1304,8 @@
                                                                 <input class="custom-control-input " id="fluidsi"
                                                                     name="fluids[]" value="Total Suspended  Solids"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="fluidsi">TDS</label>
                                                             </div>
                                                         </div>
@@ -1209,7 +1317,8 @@
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="tissuea"
                                                                     name="tissue[]" value="Hematocrit " type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="tissuea">HCT</label>
                                                             </div>
 
@@ -1217,21 +1326,24 @@
                                                                 <input class="custom-control-input " id="tissueb"
                                                                     name="tissue[]" value="Mean Corpuscular Hemoglobin "
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="tissueb">MCH</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="tissuec"
                                                                     name="tissue[]" value="Mean Corpuscular Volume "
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="tissuec">THBC</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="tissued"
                                                                     name="tissue[]" value="Mean Corpuscular Volume  "
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="tissued">MCV</label>
                                                             </div>
                                                             <div class="d-inline m-4">
@@ -1239,7 +1351,8 @@
                                                                     name="tissue[]"
                                                                     value="Mean Corpuscular Hemoglobin Concentration"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="tissuee">MCHC </label>
                                                             </div>
                                                         </div>
@@ -1252,7 +1365,8 @@
                                                                 <input class="custom-control-input " id="cytologya"
                                                                     name="cytology[]" value="Cytology Type 1"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="cytologya">TRBC</label>
                                                             </div>
 
@@ -1260,14 +1374,16 @@
                                                                 <input class="custom-control-input " id="cytologyb"
                                                                     name="cytology[]" value="Cytology Type 2"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="cytologyb">TWBC</label>
                                                             </div>
                                                             <div class="d-inline m-4">
                                                                 <input class="custom-control-input " id="cytologyc"
                                                                     name="cytology[]" value="Cytology Type 3"
                                                                     type="checkbox">
-                                                                <label class="cursor-pointer  custom-control-label"
+                                                                <label style="max-width: 60px; min-width: 60px"
+                                                                    class="cursor-pointer   custom-control-label"
                                                                     for="cytologyc">THBC</label>
                                                             </div>
                                                         </div>
@@ -1294,26 +1410,31 @@
                         </div><!-- /.card-body -->
                     </div>
                     <!-- /.card -->
-
-                    <form method="POST" action="/clinic/doctor/detail/{{ $student->id }}">
-                        @csrf
-                        @method('DELETE')
-                        <div class="flex gap-2 m-2 flex-col">
-                            <button type="submit"Lab Descriptio class="btn btn-danger w-10">DONE</button>
+                    {{-- //only show if the studen is in queue --}}
+                    @if ($queue)
+                        <div class="d-flex">
+                            <form method="POST" action="/clinic/doctor/detail/{{ $student->id }}">
+                                @csrf
+                                @method('DELETE')
+                                <div class="flex gap-2 m-2 flex-col">
+                                    <button type="submit"Lab Descriptio class="btn btn-danger w-10">DONE</button>
+                                </div>
+                            </form>
+                            <form method="POST" action="/clinic/doctor/detail/status/{{ $student->id }}">
+                                @csrf
+                                <div class="flex gap-2 m-2 flex-col">
+                                    <button type="submit"Lab Descriptio class="btn btn-warning w-10">Wait FOR LAB
+                                        RESULT</button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
-                    <form method="POST" action="/clinic/doctor/detail/status/{{ $student->id }}">
-                        @csrf
-                        <div class="flex gap-2 m-2 flex-col">
-                            <button type="submit"Lab Descriptio class="btn btn-warning w-10">WAITI FOR LAB
-                                RESULT</button>
-                        </div>
-                    </form>
+                    @endif
                 </div>
                 <!-- /.col -->
             </div>
 
             <!-- /.row -->
+            {{-- @dd(request()); --}}
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
@@ -1322,6 +1443,38 @@
     {{-- edit medical history script starts here --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script>
+        function contactModal() {
+            $('#contact-modal').modal('show');
+        }
+
+        function personalModal() {
+            $('#personalEditModal').modal('show');
+        }
+
+        $(document).ready(function() {
+
+                // Get all modal elements
+                let errorMedMessage = "{{ session('error_med_message') }}";
+                if (errorMedMessage) {
+                    @if ($errors->any() == true)
+                        contactModal();
+                    @endif
+                }
+
+                let errorPerMessage = "{{ session('error_per_message') }}";
+                if (errorPerMessage) {
+                    @if ($errors->any() == true)
+                        personalModal();
+                    @endif
+
+                }
+            }
+
+
+
+
+        );
+
         // get the medical id and other atributes to fill the edit inputs field with the old values 
         function getMedicationIdEdit(id, name, amount, frequency, how_much, why) {
             document.getElementById('medical_id_id_edit').value = id;
@@ -1339,7 +1492,7 @@
             console.log(id);
         }
         //get personal behavior for edit and pass the values with id to the model inputs
-        function getPersonalMedicationIdEdit(id, disease_or_conditions, comments){
+        function getPersonalMedicationIdEdit(id, disease_or_conditions, comments) {
             document.getElementById('personal_id_id_edit').value = id;
             document.getElementById('id_disease_or_conditions').value = disease_or_conditions;
             document.getElementById('id_comments').value = comments;
@@ -1351,7 +1504,9 @@
             document.getElementById('personal_id_id_delete').value = id;
             console.log(id);
         }
-
     </script>
+
+
+
     {{-- edit medical history script starts here --}}
 @endsection

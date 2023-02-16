@@ -1,11 +1,14 @@
 @extends('layouts.guest')
 
 @section('content')
-    <div class="card-body login-card-body">
+    <div class="card-body login-card-body text-center rounded-lg">
         <p class="login-box-msg">{{ __('Login') }}</p>
-
+        <img src="{{ asset('images/Ju_logo.png') }}" alt="Jimma Univercity Logo" width="25%">
+        <br>
         <form action="{{ route('login') }}" method="post">
             @csrf
+
+            <br>
 
             <div class="input-group mb-3">
                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" required autofocus>

@@ -149,5 +149,29 @@
 
         })
     </script>
+
+jjjjj
+
+<div class="form-group" data-select2-id="29">
+    <label>Minimal</label>
+    <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1"
+        tabindex="-1" aria-hidden="true">
+        <option selected="selected" data-select2-id="3">Alabama</option>
+        <option data-select2-id="31">Alaska</option>
+        <option data-select2-id="32">California</option>
+        <option data-select2-id="33">Delaware</option>
+        <option data-select2-id="34">Tennessee</option>
+        <option data-select2-id="35">Texas</option>
+        <option data-select2-id="36">Washington</option>
+    </select>
+</div>
+
+<script>
+    $(function() { // Initialize Select2 Elements
+        $('.select2').select2()
+    });
+</script>
+<!-- /.row -->
+</div><!-- /.container-fluid -->
     <!-- /.content -->
 @endsection

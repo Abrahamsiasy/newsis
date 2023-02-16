@@ -63,11 +63,11 @@ Route::middleware(['auth', 'doctor'])->group(function () {
     Route::get('clinic/doctor', [DoctorController::class, 'index'])->name('doctor');
     Route::post('clinic/doctor/detail/record/lab/{student}', [DoctorController::class, 'storeLabRequests']);
     Route::post('clinic/doctor/detail/record/med/{student}',  [DoctorController::class, 'storeMedRecord']);
-    Route::put('clinic/doctor/detail/record/med/{student}',  [DoctorController::class, 'updateMedRecord']);
+    Route::put('clinic/doctor/detail/record/med/{student}',  [DoctorController::class, 'updateMedRecord'])->name('updateMedRecord');
     Route::post('clinic/doctor/detail/record/personal/{student}',  [DoctorController::class, 'storePersonalRecord']);
     Route::post('clinic/doctor/detail/record/basic/{student}',  [DoctorController::class, 'updateBasicRecord']); //basic collaps blood highet wehigt
     Route::post('clinic/doctor/detail/record/basicg/{student}',  [DoctorController::class, 'updateGBasicRecord']); //gitls basic info
-    Route::get('clinic/doctor/detail/{student}',  [DoctorController::class, 'show']);
+    Route::get('clinic/doctor/detail/{student}',  [DoctorController::class, 'show'])->name('showStudent');
     Route::delete('clinic/doctor/detail/{student}',  [DoctorController::class, 'delete']);
     Route::post('clinic/doctor/detail/status/{student}',  [DoctorController::class, 'changeMedicalRecordStatus']);
     Route::get('clinic/doctor/getRoom/',  [DoctorController::class, 'getRoom'])->name('doctor.getroom');
@@ -75,7 +75,7 @@ Route::middleware(['auth', 'doctor'])->group(function () {
     Route::get('clinic/doctor/getDoctor/',  [DoctorController::class, 'getDoctor'])->name('doctor.getdoctor');
     Route::post('clinic/doctor/changeDoctor/',  [DoctorController::class, 'changeDoctor'])->name('doctor.changeDoctor');
     Route::get('clinic/doctor/list/',  [DoctorController::class, 'listPatientRecords'])->name('doctor.listPatientRecords');
-    Route::put('clinic/doctor/detail/record/edit/personal/{student}',  [DoctorController::class, 'updatePersonalMedRecord']);
+    Route::put('clinic/doctor/detail/record/edit/personal/{student}',  [DoctorController::class, 'updatePersonalMedRecord'])->name('updatePersonalMedRecord');
 
     Route::delete('clinic/doctor/student/detail/med/delete/{med}',  [DoctorController::class, 'deleteMedication']);
     Route::delete('clinic/doctor/student/detail/personal/delete/{med}',  [DoctorController::class, 'deletePersonalMedRecord']);

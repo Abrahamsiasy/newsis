@@ -20,21 +20,25 @@
                 </a>
                 
                 <ul class="nav nav-treeview">
+                    @if(Auth::user()->role_id !== 3 and Auth::user()->role_id !== 1)
                     <li class="nav-item">
                         <a href="/clinic/doctor" class="nav-link">
-                            <i class="fa-solid fa-user-doctor"></i>
+                            <i class="fas fa-user"></i>
                             <p>Doctor</p>
                         </a>
                     </li>
+                    @endif
+                    @if(Auth::user()->role_id !== 2 and Auth::user()->role_id !== 1)
                     <li class="nav-item">
                         <a href="/clinic/lab" class="nav-link">
-                            <i class="fa-solid fa-user-doctor"></i>
+                            <i class="fas fa-user"></i>
                             <p>Lab Assistant</p>
                         </a>
                     </li>
+                    @endif
                     <li class="nav-item">
                         <a href="/clinic/reception" class="nav-link">
-                            <i class="fa-solid fa-bell-concierge"></i>
+                            <i class="fas fa-phone"></i>
                             <p>Receptionist</p>
                         </a>
                     </li>
@@ -53,10 +57,13 @@
 
                 </ul>
             </li>
+
+            @if(Auth::user()->role_id == 2)
+
             <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-tree"></i>
-                  <p>
+                    <i class="fas fa-user"></i>
+                    <p>
                     Doctor
                     <i class="fas fa-angle-left right"></i>
                   </p>
@@ -69,6 +76,7 @@
                     </a>
                 </ul>
               </li>
+              @endif
         </ul>
         
     </nav>
